@@ -22,25 +22,25 @@ jobs:
         java-version: '17'
         cache: maven
 
-    # ✅ Run Maven in correct folder
+    # ✅ FIX: permission
+    - name: Make mvnw executable
+      working-directory: account-service
+      run: chmod +x mvnw
+
     - name: Build with Maven
       working-directory: account-service
       run: ./mvnw clean package -DskipTests
 
-    # ✅ Verify JAR
     - name: Verify JAR
       run: ls -l account-service/target
 
-    # ✅ Build Docker from correct folder
     - name: Build Docker Image
       working-directory: account-service
       run: docker build -t accounts-services:latest .
 
-    # ✅ Save image
     - name: Save Docker Image
       run: docker save accounts-services:latest -o accounts-services.tar
 
-    # ✅ Upload artifact
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
