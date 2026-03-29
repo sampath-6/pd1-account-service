@@ -1,1 +1,133 @@
+# 🚀 AKS Deployment with CI Pipeline and Azure Cosmos DB Integration
 
+## 📌 Overview
+
+This project demonstrates a cloud-native application built using Java (Spring Boot) and deployed on Azure Kubernetes Service (AKS). The application integrates with Azure Cosmos DB for managing account data (read/write operations) and uses a GitHub Actions pipeline for building Docker images.
+
+---
+
+## 🧱 Architecture
+
+* **Application**: Spring Boot (REST APIs for account management)
+* **Database**: Azure Cosmos DB (Accounts resource)
+* **Containerization**: Docker
+* **Container Registry**: Azure Container Registry (ACR)
+* **Orchestration**: Azure Kubernetes Service (AKS)
+* **CI Pipeline**: GitHub Actions
+
+---
+
+## ⚙️ CI Pipeline (GitHub Actions)
+
+A CI pipeline is configured to automate the build process:
+
+### 🔄 Trigger
+
+* Pipeline runs on every push to the `main` branch
+
+### 🏗️ Steps
+
+1. Checkout source code
+2. Build Docker image using Dockerfile
+3. Tag image using Git commit SHA
+4. Export Docker image as `.tar` file
+5. Upload artifact to GitHub Actions
+
+### 📦 Output
+
+* Docker image artifact (`myapp.tar`) available for download
+
+### 📌 Note
+
+Currently, image push to ACR and deployment to AKS are handled manually due to restricted Azure permissions.
+
+---
+
+## 🐳 Docker Workflow
+
+### Build (CI)
+
+* Automated via GitHub Actions
+
+### Manual Steps
+
+1. Download artifact from GitHub Actions
+2. Load image locally:
+
+   ```
+   docker load -i myapp.tar
+   ```
+3. Tag image for ACR:
+
+   ```
+   docker tag myapp:<tag> <acr-name>.azurecr.io/myapp:<tag>
+   ```
+4. Push to ACR:
+
+   ```
+   docker push <acr-name>.azurecr.io/myapp:<tag>
+   ```
+
+---
+
+## ☸️ Deployment to AKS
+
+* Application is deployed as a Kubernetes Deployment
+* Image updates are applied using:
+
+  ```
+  kubectl set image deployment/myapp myapp=<acr-name>.azurecr.io/myapp:<tag>
+  ```
+
+---
+
+## 🗄️ Azure Cosmos DB Integration
+
+The application interacts with Azure Cosmos DB for managing account data.
+
+### Features
+
+* Create account
+* Read account details
+* Update account information
+* Store structured data (accountId, name, email, etc.)
+
+### Configuration
+
+* Cosmos DB connection configured via application properties
+* Uses secure credentials (recommended via Azure Key Vault / environment variables)
+
+---
+
+## 🔐 Security & Limitations
+
+* CI pipeline does not currently use Azure Service Principal due to permission restrictions
+* ACR push and AKS deployment are partially manual
+* Future enhancement: Use OIDC / Managed Identity for secure automation
+
+---
+
+## 🚀 Future Enhancements
+
+* Full CI/CD automation (GitHub → ACR → AKS)
+* Helm-based deployments
+* Multi-environment setup (dev/qa/prod)
+* Observability (OpenTelemetry + Grafana)
+* Secure secret management using Azure Key Vault
+
+---
+
+## 📎 Summary
+
+This project demonstrates:
+
+* End-to-end containerized application deployment
+* CI pipeline for Docker image creation
+* Integration with Azure Cosmos DB
+* Deployment on AKS with scalable architecture
+
+---
+
+## 👨‍💻 Author
+
+Developed as part of hands-on cloud-native and system design learning on Azure Kubernetes ecosystem.
