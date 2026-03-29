@@ -1,4 +1,4 @@
-name: Build Java App and Docker Image
+name: Build Docker Image Artifact
 
 on:
   push:
@@ -12,31 +12,42 @@ jobs:
 
     steps:
 
+    # ✅ Checkout code
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    # ✅ Setup Java
-    - name: Set up JDK 17
+    # ✅ Setup Java 21
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
+        cache: maven
 
-    # ✅ Build JAR
+    # ✅ Fix permission for mvnw
+    - name: Make mvnw executable
+      working-directory: account-service
+      run: chmod +x mvnw
+
+    # ✅ Build JAR using Maven Wrapper
     - name: Build with Maven
-      run: mvn clean package -DskipTests
+      working-directory: account-service
+      run: ./mvnw clean package -DskipTests
 
-    # ✅ Build Docker Image (UPDATED NAME)
+    # ✅ Verify JAR (debug safety)
+    - name: Verify JAR
+      run: ls -l account-service/target
+
+    # ✅ Build Docker image (NO Maven inside Docker)
     - name: Build Docker Image
-      run: |
-        docker build -t accounts-services:${{ github.sha }} -t accounts-services:latest .
+      working-directory: account-service
+      run: docker build -t accounts-services:latest .
 
-    # ✅ Save as TAR (UPDATED NAME)
-    - name: Save Image as TAR
-      run: |
-        docker save accounts-services:${{ github.sha }} -o accounts-services.tar
+    # ✅ Save Docker image as TAR
+    - name: Save Docker Image
+      run: docker save accounts-services:latest -o accounts-services.tar
 
-    # ✅ Upload Artifact
+    # ✅ Upload artifact
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
