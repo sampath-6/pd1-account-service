@@ -7,13 +7,16 @@ spring:
   application:
     name: account-service
 
-  profiles:
-    active: qa   # activates application-qa.yml
-
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
-logging:
-  level:
-    root: INFO
+  data:
+    mongodb:
+      host: sam-cosmos-1.mongo.cosmos.azure.com
+      port: 10255
+      username: ${azure-cosmosdb-username}
+      password: ${az-cosmosdb-password}
+      database: cosmos-pd1
+      ssl:
+        enabled: true

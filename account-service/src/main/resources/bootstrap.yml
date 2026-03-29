@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-source-enabled: true
+          endpoint: https://az-cosmos-db1-keyvault.vault.azure.net/
+          property-sources:
+            - name: az-cosmos-db1-keyvault
+              endpoint: https://az-cosmos-db1-keyvault.vault.azure.net/

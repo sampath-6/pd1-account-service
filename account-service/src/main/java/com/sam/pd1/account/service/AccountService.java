@@ -14,22 +14,18 @@ import lombok.RequiredArgsConstructor;
 public class AccountService {
 
 	@Autowired
-    private  AccountCosmosRepository accountCosmosRepository;
+    private  AccountCosmosRepository cosmosTemplate;
 
     public Account create(Account account) {
-        return accountCosmosRepository.save(account);
+        return cosmosTemplate.save(account);
     }
 
     public Account getById(String accountId) {
-        return accountCosmosRepository.findById(accountId) .orElseThrow(() -> new RuntimeException("Account not found with id: " + accountId));
+        return cosmosTemplate.findById(accountId) .orElseThrow(() -> new RuntimeException("Account not found with id: " + accountId));
     }
 
 
-    public Account getByEmail(String email) {
-        return accountCosmosRepository.findByEmail(email);
-    }
-    
     public List<Account> getAll() {
-        return (List<Account>) accountCosmosRepository.findAll();
+        return (List<Account>) cosmosTemplate.findAll();
     }
 }

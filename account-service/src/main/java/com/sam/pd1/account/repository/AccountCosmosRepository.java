@@ -1,13 +1,11 @@
 package com.sam.pd1.account.repository;
 
-import com.sam.pd1.account.model.Account;
-
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.azure.spring.data.cosmos.repository.CosmosRepository;
+import com.sam.pd1.account.model.Account;
 
 @Repository
-public interface AccountCosmosRepository extends CosmosRepository<Account, String> {
+public interface AccountCosmosRepository extends MongoRepository<Account, String> {
 
-	 Account findByEmail(String email);
 }

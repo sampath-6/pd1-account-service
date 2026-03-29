@@ -1,14 +1,12 @@
 package com.sam.pd1.account.model;
 
 import org.springframework.data.annotation.Id;
-
-import com.azure.spring.data.cosmos.core.mapping.Container;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
 @Data
-@Container(containerName = "account")
-
+@Document(collection = "account")
 public class Account {
 
     @Id

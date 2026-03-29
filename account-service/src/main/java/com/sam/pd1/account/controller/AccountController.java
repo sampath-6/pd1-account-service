@@ -40,9 +40,5 @@ public class AccountController {
         return accountService.getAll();
     }
 
-    // GET BY EMAIL (optional)
-    @GetMapping("/email/{email}")
-    public Account getByEmail(@PathVariable String email) {
-        return accountService.getByEmail(email);
-    }
+    
 }
