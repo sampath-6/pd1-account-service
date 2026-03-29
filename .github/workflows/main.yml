@@ -12,9 +12,11 @@ jobs:
 
     steps:
 
+    # ✅ Checkout code
     - name: Checkout Code
       uses: actions/checkout@v4
 
+    # ✅ Setup Java 21
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -22,24 +24,30 @@ jobs:
         java-version: '21'
         cache: maven
 
+    # ✅ Fix permission for mvnw
     - name: Make mvnw executable
       working-directory: account-service
       run: chmod +x mvnw
 
+    # ✅ Build JAR using Maven Wrapper
     - name: Build with Maven
       working-directory: account-service
       run: ./mvnw clean package -DskipTests
 
+    # ✅ Verify JAR (debug safety)
     - name: Verify JAR
       run: ls -l account-service/target
 
+    # ✅ Build Docker image (NO Maven inside Docker)
     - name: Build Docker Image
       working-directory: account-service
       run: docker build -t accounts-services:latest .
 
+    # ✅ Save Docker image as TAR
     - name: Save Docker Image
       run: docker save accounts-services:latest -o accounts-services.tar
 
+    # ✅ Upload artifact
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
