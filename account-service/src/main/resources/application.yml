@@ -13,14 +13,7 @@ spring:
 
   data:
     mongodb:
-      host: sam-cosmos-1.mongo.cosmos.azure.com
-      port: 10255
-      username: ${azure-cosmosdb-username}
-      password: ${az-cosmosdb-password}
-      database: ${az-cosmosdb-name}
-      ssl:
-        enabled: true
-
+       uri: mongodb://${azure-cosmosdb-username}:${az-cosmosdb-password}@${az-cosmosdb-uri}:10255/cosmos-pd1?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000
 management:
   endpoints:
     web:
@@ -36,3 +29,7 @@ management:
     metrics:
       export:
         enabled: true
+
+rate-limit:
+  requests: 10
+  duration-minutes: 1

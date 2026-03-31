@@ -15,7 +15,7 @@ import com.sam.pd1.account.service.AccountService;
 
 import lombok.RequiredArgsConstructor;
 @RestController
-@RequestMapping("/pd1/v1/accounts")
+@RequestMapping("/v1/accounts")
 @RequiredArgsConstructor
 public class AccountController {
 
