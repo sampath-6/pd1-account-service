@@ -17,7 +17,7 @@ spring:
       port: 10255
       username: ${azure-cosmosdb-username}
       password: ${az-cosmosdb-password}
-      database: cosmos-pd1
+      database: ${az-cosmosdb-name}
       ssl:
         enabled: true
 

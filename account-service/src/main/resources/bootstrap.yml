@@ -3,10 +3,11 @@ spring:
     azure:
       credential:
         managed-identity-enabled: true
+        client-id: ${AZURE_CLIENT_ID}
       keyvault:
         secret:
           property-source-enabled: true
           endpoint: https://az-cosmos-db1-keyvault.vault.azure.net/
           property-sources:
-            - name: az-cosmos-db1-keyvault
-              endpoint: https://az-cosmos-db1-keyvault.vault.azure.net/
+            - name: ${AZURE_KEYVAULT_NAME}
+              endpoint: ${AZURE_KEYVAULT_ENDPOINT}
